@@ -1,52 +1,75 @@
-export const SET_START_GAME = 'SET_START_GAME'
-export const INCREASE_SCORE = 'INCREASE_SCORE'
-export const SET_FAIL = 'SET_FAIL'
-export const SET_LOSE = 'SET_LOSE'
-export const SET_COMPLEXITY = 'SET_COMPLEXITY'
-export const SET_WIN = 'SET_WIN'
-export const SET_NEW_TIME = 'SET_NEW_TIME'
-
+import { requestHandler } from "utils/requestHandler";
+import * as CONSTANT from "constant";
 
 export function setStartGame(start) {
   return {
-    type: SET_START_GAME,
+    type: CONSTANT.SET_START_GAME,
     payload: start,
   }
 }
 
 export function chargeMyScore() {
   return {
-    type: INCREASE_SCORE,
+    type: CONSTANT.INCREASE_SCORE,
   }
 }
 
 export function chargeFail() {
   return {
-    type: SET_FAIL,
+    type: CONSTANT.SET_FAIL,
   }
 }
 
 export function setLoseGame(lose) {
+  console.log(lose)
   return {
-    type: SET_LOSE,
+    type: CONSTANT.SET_LOSE,
     payload: lose,
   }
 }
 
 export function setWinGame(win) {
   return {
-    type: SET_WIN,
+    type: CONSTANT.SET_WIN,
     payload: win,
   }
 }
 export function chargeComplexity() {
   return {
-    type: SET_COMPLEXITY,
+    type: CONSTANT.SET_COMPLEXITY,
   }
 }
 
 export function changeTime() {
   return {
-    type: SET_NEW_TIME,
+    type: CONSTANT.SET_NEW_TIME,
   }
+}
+
+export function getScore() {
+  return dispatch => {
+    const options = {
+      type: "get",
+      url: "/score",
+    };
+    const cb = (response) => {
+      dispatch({type: CONSTANT.BEST_SCORE, payload: response.data})
+    }
+    requestHandler({options, cb})
+  };
+}
+
+
+export function setScore(data) {
+  return dispatch => {
+    const options = {
+      type: "post",
+      url: '/update',
+      data
+    };
+    const cb = (response) => {
+      dispatch({type: CONSTANT.BEST_SCORE, payload: response.data})
+    }
+    requestHandler({options, cb})
+  };
 }

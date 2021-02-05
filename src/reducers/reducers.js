@@ -7,7 +7,9 @@ export const initialState = {
   loseGame: false,
   winGame: false,
   time: 1000,
-  loader: false
+  loader: false,
+  bestScore: null,
+  currentScore: null
 };
 
 export function rootReduser(state = initialState, action) {
@@ -41,7 +43,8 @@ export function rootReduser(state = initialState, action) {
     case CONSTANT.SET_LOSE:
       return {
         ...state,
-        loseGame: action.payload
+        loseGame: action.payload.value,
+        currentScore: action.payload.score
       }
     case CONSTANT.SET_COMPLEXITY:
       return {
@@ -51,12 +54,18 @@ export function rootReduser(state = initialState, action) {
     case CONSTANT.SET_WIN:
       return {
         ...state,
-        winGame: action.payload
+        winGame: action.payload.value,
+        currentScore: action.payload.score
       }
     case CONSTANT.SET_NEW_TIME:
       return {
         ...state,
         time: state.time -= 100
+      }
+    case CONSTANT.BEST_SCORE:
+      return {
+        ...state,
+        bestScore: action.payload
       }
     default:
       return state

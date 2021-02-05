@@ -1,12 +1,20 @@
+import { useEffect } from 'react';
+import { connect } from 'react-redux'
 import lose from 'assets/lose.png'
+import { setScore } from 'actions/game'
 
-const LoseGame = (props) => {
+const LoseGame = ({setStartGame, bestScore, currentScore, setScore}) => {
+  useEffect(() => {
+    console.log(currentScore, bestScore.count)
+    if(currentScore > bestScore.count){
+      setScore({id: bestScore._id, count: currentScore})
+    }
+  },[currentScore, currentScore])
+
   const letsTryAgain = () => {
-    const { setStartGame } = props
     setStartGame({ start: true, lose: false, win: false, score: 0, fail: 0, time: 1000 })
   }
   const returnToMenu = () => {
-    const { setStartGame } = props
     setStartGame({ start: false, lose: false, win: false, score: 0, fail: 0, time: 1000 })
   }
   return (
@@ -21,5 +29,10 @@ const LoseGame = (props) => {
   )
 }
 
-export default LoseGame
+const mapStateToProps = store => ({
+  bestScore: store.bestScore,
+  currentScore: store.currentScore
+})
+
+export default connect(mapStateToProps, {setScore})(LoseGame)
 

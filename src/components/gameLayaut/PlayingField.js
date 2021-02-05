@@ -49,19 +49,19 @@ class PlayingField extends Component {
   };
 
   timeReduction = () => {
-    const { time, chargeFail } = this.props;
+    const { time, chargeFail, score } = this.props;
     this.setState({ timeToCatch: time, timeToCatchDef: time });
 
     setTimeout(() => {
       let reductionInterval = setInterval(() => {
         let decrease;
 
-        if (this.props.score === 100) {
+        if (score === 100) {
           clearInterval(reductionInterval);
-          this.props.setWinGame(true);
+          this.props.setWinGame({value: true, score});
         } else if (this.props.fail === 3) {
           clearInterval(reductionInterval);
-          this.props.setLoseGame(true);
+          this.props.setLoseGame({value: true, score});
         } else if (this.state.timeToCatch === 0) {
           clearInterval(reductionInterval);
           if(!this.state.miss){
