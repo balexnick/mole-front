@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route, Redirect } from "react-router";
+import Login from "pages/Login";
+import HomePage from "pages/HomePage";
+import Register from "pages/Register";
+import AuthPage from "components/auth/AuthPage";
+import Loader from 'common/Loader'
 
-function App() {
+const App = () => {
+  const isAuth = component => {
+    const token = localStorage.getItem('token')
+    if (!token) return <Redirect to="/signIn" />;
+    return (
+      <div>
+        {component}
+        <Loader/>
+      </div>
+    );
+  };
+
+  const notAuth = component => {
+    const token = localStorage.getItem('token')
+    if (token) return <Redirect to="/" />;
+    return ( 
+      <AuthPage>{component}
+        <Loader/>
+      </AuthPage>
+    )
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route path='/signIn' render={() => notAuth(<Login />)} />
+      <Route path='/signUp' render={() => notAuth(<Register />)} />
+      <Route path='/all-tasks' render={() => isAuth(<HomePage />)} />
+      <Route path='/' render={() => isAuth(<HomePage />)} />
+    </Switch>
   );
 }
 
