@@ -11,7 +11,6 @@ export function login(data) {
     };
     const cb = (response) => {
       localStorage.setItem("token", response.data.token)
-      localStorage.setItem("userId", response.data.id)
       browserHistory.push("/");
       toast.success(response.data.message);
     }

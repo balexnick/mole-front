@@ -30,11 +30,11 @@ export const requestHandler = ({options, cb, failCb}) => {
     default:
       break;
   }
-  store.dispatch({ type: CONSTANT.LOADER, payload: true })
+  store.dispatch({ type: CONSTANT.TOGGLE_LOADER })
   return axios(axiosOptions)
     .then(res => {
       if (typeof cb === 'function') cb(res)
-      store.dispatch({ type: CONSTANT.LOADER, payload: false })
+      store.dispatch({ type: CONSTANT.TOGGLE_LOADER })
     })
     .catch(function (err) {
       console.log(err.response)
@@ -42,6 +42,6 @@ export const requestHandler = ({options, cb, failCb}) => {
         toast.error(err.response.data.message);
       }
       if (typeof failCb === 'function') failCb(err)
-      store.dispatch({ type: CONSTANT.LOADER, payload: false })
+      store.dispatch({ type: CONSTANT.TOGGLE_LOADER })
     })
 };

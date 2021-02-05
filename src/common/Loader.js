@@ -1,6 +1,5 @@
 import {connect} from 'react-redux'
 import PropTypes from "prop-types";
-import * as CONSTANT from 'constant'
 
 const Loader = ({loader}) => {
   if(!loader) return null
@@ -14,9 +13,8 @@ Loader.propTypes = {
 }
 
 
-const mapStateToProps = state => {
-  const loader = state[CONSTANT.LOADER];
-  return {loader}
-}
+const mapStateToProps = state => ({
+  loader: state.loader
+})
 
 export default connect(mapStateToProps)(Loader)
